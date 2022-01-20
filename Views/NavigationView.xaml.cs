@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace DraftDesktopApp
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для NavigationView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class NavigationView : Window
     {
-        public MainWindow()
+        public NavigationView()
         {
             InitializeComponent();
         }

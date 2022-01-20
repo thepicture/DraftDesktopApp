@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DraftDesktopApp.Services;
+using DraftDesktopApp.ViewModels;
 using System.Windows;
 
 namespace DraftDesktopApp
@@ -13,5 +9,18 @@ namespace DraftDesktopApp
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            DependencyService.Register<ViewModelNavigationService>();
+
+            Window window = new NavigationView();
+            window.Show();
+
+            DependencyService
+                .Get<INavigationService<ViewModelBase>>()
+                .Navigate<MaterialViewModel>();
+        }
     }
 }
