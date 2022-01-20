@@ -4,12 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DraftDesktopApp"
+        xmlns:viewmodels="clr-namespace:DraftDesktopApp.ViewModels"
+        xmlns:views="clr-namespace:DraftDesktopApp.Views"
+        d:DataContext="{d:DesignInstance Type=viewmodels:NavigationViewModel}"
         mc:Ignorable="d"
         Title="{Binding CurrentViewModel.Title}"
-        Height="450" 
-        Width="800"
-        MinHeight="450"
-        MinWidth="800">
+        Height="850" 
+        Width="1200"
+        MinHeight="850"
+        MinWidth="1200">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ContentControl Content="{Binding CurrentViewModel}"
+                        Grid.Row="1">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:MaterialViewModel}">
+                    <views:MaterialView></views:MaterialView>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

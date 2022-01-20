@@ -35,8 +35,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\MaterialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NavigationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,12 +77,70 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\SupplierTitleValueConverter.cs" />
+    <Compile Include="Models\Entities\Agent.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\AgentPriorityHistory.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\AgentType.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\DraftModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DraftModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\DraftModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\DraftModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DraftModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Material.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\MaterialCountHistory.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\MaterialType.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Product.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ProductCostHistory.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ProductMaterial.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ProductSale.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ProductType.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Shop.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Supplier.cs">
+      <DependentUpon>DraftModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Services\DependencyService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\MaterialView.xaml.cs">
+      <DependentUpon>MaterialView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -92,6 +164,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="Models\Entities\DraftModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DraftModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\Entities\DraftModel.edmx.diagram">
+      <DependentUpon>DraftModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -100,8 +180,22 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Content Include="Models\Entities\DraftModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DraftModel.Context.cs</LastGenOutput>
+      <DependentUpon>DraftModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Entities\DraftModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DraftModel.edmx</DependentUpon>
+      <LastGenOutput>DraftModel.cs</LastGenOutput>
+    </Content>
+    <Resource Include="Resources\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

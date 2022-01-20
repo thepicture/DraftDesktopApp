@@ -15,7 +15,10 @@ namespace DraftDesktopApp
 
             DependencyService.Register<ViewModelNavigationService>();
 
-            Window window = new NavigationView();
+            Window window = new NavigationView
+            {
+                DataContext = new NavigationViewModel()
+            };
             window.Show();
 
             DependencyService

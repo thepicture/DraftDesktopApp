@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d9205fc2d55647f68f54bfeb5adf4cb1" Name="Diagram1">
+        <EntityTypeShape EntityType="DraftBaseModel.Agent" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.AgentPriorityHistory" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.AgentType" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.Material" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.MaterialCountHistory" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.MaterialType" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.Product" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.ProductCostHistory" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.ProductMaterial" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.ProductSale" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.ProductType" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.Shop" Width="1.5" PointX="5.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DraftBaseModel.Supplier" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
+        <AssociationConnector Association="DraftBaseModel.FK_Agent_AgentType" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_AgentPriorityHistory_Agent" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_ProductSale_Agent" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_Shop_Agent" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_Material_MaterialType" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_MaterialCountHistory_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_ProductMaterial_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_Product_ProductType" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_ProductCostHistory_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_ProductMaterial_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.FK_ProductSale_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DraftBaseModel.MaterialSupplier" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

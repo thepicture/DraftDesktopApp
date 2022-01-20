@@ -9,13 +9,13 @@ namespace DraftDesktopApp.ViewModels
 
         public NavigationViewModel()
         {
-            DependencyService.Get<INavigationService<ViewModelBase>>().Navigated += 
+            DependencyService.Get<INavigationService<ViewModelBase>>().Navigated +=
                 OnNavigated;
         }
 
         private void OnNavigated()
         {
-            System.Diagnostics.Debug.WriteLine("navigated");
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }
