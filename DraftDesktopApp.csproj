@@ -192,6 +192,8 @@
       <DependentUpon>DraftModel.edmx</DependentUpon>
       <LastGenOutput>DraftModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\picture.png" />
   </ItemGroup>
   <ItemGroup>

@@ -46,15 +46,16 @@
             </ListView.Resources>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Black">
+                    <Border BorderBrush="Black"
+                            BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="5*" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             <Image Stretch="Uniform"
-                                   Height="100">
+                                   Height="150">
                                 <Image.Source>
                                     <Binding Path="ImageBytes">
                                         <Binding.TargetNullValue>
@@ -67,17 +68,21 @@
                             </Image>
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*" />
-                                    <RowDefinition Height="1*" />
-                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0">
+                                <TextBlock Grid.Row="0"
+                                           Grid.ColumnSpan="3">
                                     <TextBlock.Inlines>
                                         <Run Text="{Binding MaterialType.Title}"></Run>
                                         <Run Text="|"></Run>
                                         <Run Text="{Binding Title}"></Run>
                                     </TextBlock.Inlines>
                                 </TextBlock>
+                                <TextBlock Grid.ColumnSpan="3"
+                                           HorizontalAlignment="Right"
+                                           Text="{Binding CountInStock, StringFormat=Остаток: {0} шт}"></TextBlock>
                                 <TextBlock Grid.Row="1"
                                            Text="{Binding MinCount, StringFormat={}Минимальное количество: {0} шт}"></TextBlock>
                                 <TextBlock Grid.Row="2"
@@ -89,8 +94,7 @@
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </Grid>
-                            <TextBlock Grid.Column="2"
-                                       Text="{Binding CountInStock, StringFormat=Остаток: {0} шт}"></TextBlock>
+                          
                         </Grid>
                     </Border>
                 </DataTemplate>

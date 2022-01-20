@@ -12,12 +12,22 @@
         Height="850" 
         Width="1200"
         MinHeight="850"
-        MinWidth="1200">
+        MinWidth="1200"
+        Icon="/DraftDesktopApp;component/Resources/icon.ico"
+        FontFamily="Segoe Print">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
+        <Grid Background="{StaticResource AdditionalBackground}">
+            <Image Source="/Resources/logo.png"
+                   HorizontalAlignment="Left"
+                   Stretch="Uniform"></Image>
+            <TextBlock Text="Черновик"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource HeaderBlock}"></TextBlock>
+        </Grid>
         <ContentControl Content="{Binding CurrentViewModel}"
                         Grid.Row="1">
             <ContentControl.Resources>
