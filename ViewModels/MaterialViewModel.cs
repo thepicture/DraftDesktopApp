@@ -14,6 +14,22 @@ namespace DraftDesktopApp.ViewModels
         {
             Title = "Материалы";
 
+            FilterTypes = new List<MaterialType>
+            {
+                new MaterialType
+                {
+                    Title="Все типы"
+                },
+            };
+
+            _ = LoadFilters()
+                .ContinueWith(t => LoadSortTypes())
+                .ContinueWith(t => LoadMaterials());
+
+        }
+
+        private void LoadSortTypes()
+        {
             SortTypes = new List<string>
             {
                 "Сортировка",
@@ -24,19 +40,11 @@ namespace DraftDesktopApp.ViewModels
                 "Стоимость по возрастанию",
                 "Стоимость по убыванию",
             };
-
             CurrentSortType = SortTypes.First();
-
-            _ = LoadFilters()
-                .ContinueWith(t => LoadMaterials());
         }
 
         private async Task LoadFilters()
         {
-            FilterTypes = new List<MaterialType>
-            {
-                new MaterialType {Title="Все типы"},
-            };
             List<MaterialType> materialTypes =
                 await _context.MaterialType.ToListAsync();
             FilterTypes
@@ -46,26 +54,96 @@ namespace DraftDesktopApp.ViewModels
 
         private async void LoadMaterials()
         {
-            Materials = await _context.Material.ToListAsync();
+            if (IsBusy)
+            {
+                return;
+            }
+            IsBusy = true;
+            List<Material> currentMaterials = await _context.Material.ToListAsync();
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                currentMaterials = currentMaterials.Where(m =>
+                {
+                    string lowerCaseSearchText = SearchText.ToLower();
+                    return m.Title
+                    .ToLower()
+                    .Contains(lowerCaseSearchText);
+                })
+                    .ToList();
+            }
+            if (currentFilterType != null
+                && CurrentFilterType.Title != "Все типы")
+            {
+                currentMaterials = currentMaterials.Where(m => m.MaterialType.ID == CurrentFilterType.ID)
+                    .ToList();
+            }
+
+            if (CurrentSortType != null
+                && CurrentSortType != "Сортировка")
+            {
+                switch (CurrentSortType)
+                {
+                    case "Наименование по возрастанию":
+                        currentMaterials = currentMaterials.OrderBy(m => m.Title)
+                            .ToList();
+                        break;
+                    case "Наименование по убыванию":
+                        currentMaterials = currentMaterials.OrderByDescending(m => m.Title)
+                            .ToList();
+                        break;
+                    case "Остаток на складе по возрастанию":
+                        currentMaterials = currentMaterials.OrderBy(m => m.CountInStock)
+                            .ToList();
+                        break;
+                    case "Остаток на складе по убыванию":
+                        currentMaterials = currentMaterials.OrderByDescending(m => m.CountInStock)
+                            .ToList();
+                        break;
+                    case "Стоимость по возрастанию":
+                        currentMaterials = currentMaterials.OrderBy(m => m.Cost)
+                            .ToList();
+                        break;
+                    case "Стоимость по убыванию":
+                        currentMaterials = currentMaterials.OrderByDescending(m => m.Cost)
+                            .ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Materials = currentMaterials;
+            IsBusy = false;
         }
 
-        private string searchText;
+        private string _searchText = string.Empty;
 
         public string SearchText
         {
-            get => searchText = string.Empty;
-            set => SetProperty(ref searchText, value);
+            get => _searchText;
+            set
+            {
+                if (SetProperty(ref _searchText, value))
+                {
+                    LoadMaterials();
+                }
+            }
         }
 
         private List<MaterialType> _filterTypes;
         private IEnumerable<string> _sortTypes;
 
-        private string currentSortType;
+        private string _currentSortType;
 
         public string CurrentSortType
         {
-            get => currentSortType;
-            set => SetProperty(ref currentSortType, value);
+            get => _currentSortType;
+            set
+            {
+                if (SetProperty(ref _currentSortType, value))
+                {
+                    LoadMaterials();
+                }
+            }
         }
 
         private MaterialType currentFilterType;
@@ -73,7 +151,13 @@ namespace DraftDesktopApp.ViewModels
         public MaterialType CurrentFilterType
         {
             get => currentFilterType;
-            set => SetProperty(ref currentFilterType, value);
+            set
+            {
+                if (SetProperty(ref currentFilterType, value))
+                {
+                    LoadMaterials();
+                }
+            }
         }
         public List<MaterialType> FilterTypes
         {

@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <TextBox ToolTip="Введите текст для поиска"
-                     Text="{Binding SearchText}"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Column="0"></TextBox>
             <ComboBox Grid.Column="1"
                       ItemsSource="{Binding SortTypes}"
@@ -38,12 +38,12 @@
         </Grid>
         <ListView Grid.Row="1"
                   ItemsSource="{Binding Materials}">
-            <ListView.Resources>
+            <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
                             Value="Stretch" />
                 </Style>
-            </ListView.Resources>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black"
@@ -94,7 +94,7 @@
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </Grid>
-                          
+
                         </Grid>
                     </Border>
                 </DataTemplate>

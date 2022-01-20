@@ -9,6 +9,7 @@ namespace DraftDesktopApp.ViewModels
     public class ViewModelBase : INotifyPropertyChanged
     {
         private string _title;
+        private bool _isBusy;
 
         public string Title
         {
@@ -18,6 +19,12 @@ namespace DraftDesktopApp.ViewModels
                 _title = value;
                 OnPropertyChanged();
             }
+        }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
