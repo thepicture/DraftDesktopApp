@@ -55,13 +55,47 @@ namespace DraftDesktopApp.ViewModels
             set => _saveChangesCommand = value;
         }
 
-        private void PerformSaveChanges(object obj)
+        public RelayCommand DeleteMaterialCommand
         {
-            CurrentMaterial.MaterialType = CurrentType;
-            if (CurrentMaterial.ID == 0)
+            get
             {
-                _context.Material.Add(CurrentMaterial);
+                if (_deleteMaterialCommand == null)
+                {
+                    _deleteMaterialCommand = new RelayCommand(PerformDelete);
+                }
+                return _deleteMaterialCommand;
             }
+
+            set => _deleteMaterialCommand = value;
+        }
+
+        private void PerformDelete(object obj)
+        {
+            if (CurrentMaterial.ProductMaterial.Count() > 0)
+            {
+                return;
+            }
+
+            if (CurrentMaterial.Supplier.Count() > 0)
+            {
+                _context.Supplier.RemoveRange(CurrentMaterial.Supplier);
+            }
+
+            if (CurrentMaterial.MaterialCountHistory.Count() > 0)
+            {
+                _context.MaterialCountHistory.RemoveRange(CurrentMaterial.MaterialCountHistory);
+            }
+
+            _context.Material.Remove(CurrentMaterial);
+
+            SaveChanges();
+
+            DependencyService.Get<INavigationService<ViewModelBase>>()
+                               .Navigate<MaterialViewModel>();
+        }
+
+        private void SaveChanges()
+        {
             try
             {
                 _context.SaveChanges();
@@ -74,6 +108,18 @@ namespace DraftDesktopApp.ViewModels
             }
         }
 
+        private void PerformSaveChanges(object obj)
+        {
+            CurrentMaterial.MaterialType = CurrentType;
+            if (CurrentMaterial.ID == 0)
+            {
+                _context.Material.Add(CurrentMaterial);
+            }
+            SaveChanges();
+        }
+
         private RelayCommand _saveChangesCommand;
+
+        private RelayCommand _deleteMaterialCommand;
     }
 }

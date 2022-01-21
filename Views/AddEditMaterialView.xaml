@@ -41,6 +41,11 @@
             <Button Background="{StaticResource AttentionAccent}"
                     Content="Вернуться назад"
                     Command="{Binding GoBackCommand}"></Button>
+            <Button Background="{StaticResource AttentionAccent}"
+                    Content="Удалить"
+                    Command="{Binding DeleteMaterialCommand}"
+                    IsEnabled="{Binding CurrentMaterial.ID}"
+                    Opacity="{Binding CurrentMaterial.ID}"></Button>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
