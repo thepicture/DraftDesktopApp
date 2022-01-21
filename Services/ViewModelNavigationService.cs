@@ -34,10 +34,10 @@ namespace DraftDesktopApp.Services
 
         public void GoBack()
         {
-            if (Journal.Count != 0)
+            if (Journal.Count > 1)
             {
-                ViewModelBase viewModel = Journal.Pop();
-                CurrentNavigator = viewModel;
+                _ = Journal.Pop();
+                CurrentNavigator = Journal.Peek();
                 Navigated?.Invoke();
             }
         }

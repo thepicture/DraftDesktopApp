@@ -33,7 +33,7 @@ namespace DraftDesktopApp.ViewModels
         {
             get
             {
-                if (_goBackCommand != null)
+                if (_goBackCommand == null)
                 {
                     _goBackCommand = new RelayCommand(PerformGoBack);
                 }
