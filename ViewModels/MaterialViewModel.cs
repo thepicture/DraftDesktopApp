@@ -1,4 +1,7 @@
-﻿using DraftDesktopApp.Models.Entities;
+﻿using DraftDesktopApp.Commands;
+using DraftDesktopApp.Models;
+using DraftDesktopApp.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -52,6 +55,8 @@ namespace DraftDesktopApp.ViewModels
             CurrentFilterType = FilterTypes.First();
         }
 
+        private IList<PaginatorItem> _paginatorItems = new List<PaginatorItem>();
+
         private async void LoadMaterials()
         {
             if (IsBusy)
@@ -60,6 +65,7 @@ namespace DraftDesktopApp.ViewModels
             }
             IsBusy = true;
             List<Material> currentMaterials = await _context.Material.ToListAsync();
+            AllMaterialsCount = currentMaterials.Count();
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 currentMaterials = currentMaterials.Where(m =>
@@ -111,8 +117,25 @@ namespace DraftDesktopApp.ViewModels
                         break;
                 }
             }
+
+
             Materials = currentMaterials;
+            FoundMaterialsCount = Materials.Count();
+
+            Materials = Materials.Skip(CurrentPage - 1).Take(15);
+
+            LoadPages();
             IsBusy = false;
+        }
+
+        private void LoadPages()
+        {
+            var currentPageItems = new List<PaginatorItem>();
+            for (int i = 1; i < (int)Math.Ceiling(FoundMaterialsCount * 1.0 / 15); i++)
+            {
+                currentPageItems.Add(new PaginatorItem(i));
+            }
+            PaginatorItems = currentPageItems;
         }
 
         private string _searchText = string.Empty;
@@ -174,7 +197,102 @@ namespace DraftDesktopApp.ViewModels
             get => _materials;
             set => SetProperty(ref _materials, value);
         }
+        public int FoundMaterialsCount
+        {
+            get => _foundMaterialsCount;
+            set => SetProperty(ref _foundMaterialsCount, value);
+        }
+
+        public RelayCommand GoToPreviousPageCommand
+        {
+            get
+            {
+                if (_goToPreviousPageCommand == null)
+                {
+                    _goToPreviousPageCommand = new RelayCommand(PerformGoToPreviousPage);
+                }
+                return _goToPreviousPageCommand;
+            }
+
+            set => SetProperty(ref _goToPreviousPageCommand, value);
+        }
+
+        private void PerformGoToNextPage(object obj)
+        {
+            CurrentPage++;
+            LoadMaterials();
+        }
+
+        private RelayCommand _goToPreviousPageCommand;
+
+        public RelayCommand GoToNextPageCommand
+        {
+            get
+            {
+                if (_goToNextPageCommand == null)
+                {
+                    _goToNextPageCommand = new RelayCommand(PerformGoToNextPage);
+                }
+                return _goToNextPageCommand;
+            }
+
+            set => SetProperty(ref _goToNextPageCommand, value);
+        }
+
+        public int CurrentPage
+        {
+            get => _currentPage;
+            set => SetProperty(ref _currentPage, value);
+        }
+        public IList<PaginatorItem> PaginatorItems
+        {
+            get => _paginatorItems;
+            set => SetProperty(ref _paginatorItems, value);
+        }
+        public int AllMaterialsCount
+        {
+            get => _allMaterialsCount;
+            set => SetProperty(ref _allMaterialsCount, value);
+        }
+        public RelayCommand GoToSelectedPageCommand
+        {
+            get
+            {
+                if (_goToSelectedPageCommand == null)
+                {
+                    _goToSelectedPageCommand = new RelayCommand(PerformPaginationCommand);
+                }
+                return _goToSelectedPageCommand;
+            }
+
+            set => _goToSelectedPageCommand = value;
+        }
+
+        private void PerformPaginationCommand(object obj)
+        {
+            int pageNumber = (int)obj;
+            CurrentPage = pageNumber;
+            LoadMaterials();
+        }
+
+        private void PerformGoToPreviousPage(object obj)
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                LoadMaterials();
+            }
+        }
+
+        private RelayCommand _goToNextPageCommand;
+
 
         private IEnumerable<Material> _materials;
+
+        private int _currentPage = 1;
+        private int _allMaterialsCount;
+        private int _foundMaterialsCount;
+
+        private RelayCommand _goToSelectedPageCommand;
     }
 }

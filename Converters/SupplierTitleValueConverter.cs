@@ -1,6 +1,7 @@
 ﻿using DraftDesktopApp.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
@@ -14,7 +15,11 @@ namespace DraftDesktopApp.Converters
                               object parameter,
                               CultureInfo culture)
         {
-            ICollection<Supplier> suppliers = (ICollection<Supplier>)value;
+            if(!(value is ObservableCollection<Supplier>))
+            {
+                return "a, b, c, ...";
+            }
+            ObservableCollection<Supplier> suppliers = (ObservableCollection<Supplier>)value;
             IEnumerable<string> suppliersTitles = suppliers.Select(s => s.Title);
             return string.Join(", ", suppliersTitles);
         }
