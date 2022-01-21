@@ -36,7 +36,8 @@
                      Height="300"
                      TextWrapping="Wrap"></TextBox>
             <Button Background="{StaticResource AttentionAccent}"
-                    Content="Сохранить"></Button>
+                    Content="Сохранить"
+                    Command="{Binding SaveChangesCommand}"></Button>
             <Button Background="{StaticResource AttentionAccent}"
                     Content="Вернуться назад"
                     Command="{Binding GoBackCommand}"></Button>

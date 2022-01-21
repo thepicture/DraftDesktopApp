@@ -1,4 +1,7 @@
-﻿using DraftDesktopApp.Models.Entities;
+﻿using DraftDesktopApp.Commands;
+using DraftDesktopApp.Models.Entities;
+using DraftDesktopApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,5 +42,37 @@ namespace DraftDesktopApp.ViewModels
             get => _currentType;
             set => SetProperty(ref _currentType, value);
         }
+        public RelayCommand SaveChangesCommand
+        {
+            get
+            {
+                if (_saveChangesCommand == null)
+                {
+                    _saveChangesCommand = new RelayCommand(PerformSaveChanges);
+                }
+                return _saveChangesCommand;
+            }
+            set => _saveChangesCommand = value;
+        }
+
+        private void PerformSaveChanges(object obj)
+        {
+            if (CurrentMaterial.ID == 0)
+            {
+                _context.Material.Add(CurrentMaterial);
+            }
+            try
+            {
+                _context.SaveChanges();
+                DependencyService.Get<INavigationService<ViewModelBase>>()
+                                 .Navigate<MaterialViewModel>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private RelayCommand _saveChangesCommand;
     }
 }
