@@ -21,6 +21,17 @@
             <RowDefinition Height="5*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
+        <Grid Name="InfoGrid">
+            <TextBlock>
+                <TextBlock.Inlines>
+                    <Run Text="Выведено"></Run>
+                    <Run Text="{Binding FoundMaterialsCount}"></Run>
+                    <Run Text="из"></Run>
+                    <Run Text="{Binding AllMaterialsCount}"></Run>
+                    <Run Text="материалов"></Run>
+                </TextBlock.Inlines>
+            </TextBlock>
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
