@@ -17,12 +17,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Grid Name="InfoGrid">
-            <TextBlock>
+            <TextBlock Style="{StaticResource HeaderBlock}"
+                       VerticalAlignment="Center">
                 <TextBlock.Inlines>
                     <Run Text="Выведено"></Run>
                     <Run Text="{Binding FoundMaterialsCount}"></Run>
@@ -107,7 +108,13 @@
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </Grid>
-
+                            <Button Content="Редактировать"
+                                    CommandParameter="{Binding .}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.EditMaterialCommand}"
+                                    HorizontalAlignment="Right"
+                                    Grid.Column="1"
+                                    Background="{StaticResource AttentionAccent}"
+                                    VerticalAlignment="Bottom"></Button>
                         </Grid>
                     </Border>
                 </DataTemplate>

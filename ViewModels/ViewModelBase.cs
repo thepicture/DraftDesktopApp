@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using DraftDesktopApp.Commands;
+using DraftDesktopApp.Services;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace DraftDesktopApp.ViewModels
@@ -10,6 +12,7 @@ namespace DraftDesktopApp.ViewModels
     {
         private string _title;
         private bool _isBusy;
+        private RelayCommand _goBackCommand;
 
         public string Title
         {
@@ -25,6 +28,25 @@ namespace DraftDesktopApp.ViewModels
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
+        }
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                if (_goBackCommand != null)
+                {
+                    _goBackCommand = new RelayCommand(PerformGoBack);
+                }
+                return _goBackCommand;
+            }
+
+            set => _goBackCommand = value;
+        }
+
+        private void PerformGoBack(object obj)
+        {
+            DependencyService.Get<INavigationService<ViewModelBase>>()
+                             .GoBack();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

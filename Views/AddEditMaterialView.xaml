@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="DraftDesktopApp.Views.AddEditMaterialView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DraftDesktopApp.Views"
+             xmlns:viewmodels="clr-namespace:DraftDesktopApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AddEditMaterialViewModel}"
+             Background="White">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="Наименование"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.Title}"></TextBox>
+            <TextBlock Text="Тип материала"></TextBlock>
+            <ComboBox ItemsSource="{Binding MaterialTypes}"
+                      SelectedItem="{Binding CurrentType}"
+                      DisplayMemberPath="Title"></ComboBox>
+            <TextBlock Text="Количество на складе"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.CountInStock}"></TextBox>
+            <TextBlock Text="Единица измерения"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.Unit}"></TextBox>
+            <TextBlock Text="Количество в упаковке"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.CountInPack}"></TextBox>
+            <TextBlock Text="Минимальное количество"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.MinCount}"></TextBox>
+            <TextBlock Text="Стоимость за единицу"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.Cost}"></TextBox>
+            <TextBlock Text="Изображение"></TextBlock>
+            <Image Source="{Binding CurrentMaterial.Image}"></Image>
+            <TextBlock Text="Подробное описание"></TextBlock>
+            <TextBox Text="{Binding CurrentMaterial.Description}"
+                     Height="300"
+                     TextWrapping="Wrap"></TextBox>
+            <Button Background="{StaticResource AttentionAccent}"
+                    Content="Сохранить"></Button>
+            <Button Background="{StaticResource AttentionAccent}"
+                    Content="Вернуться назад"
+                    Command="{Binding GoBackCommand}"></Button>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

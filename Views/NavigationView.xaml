@@ -34,6 +34,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:MaterialViewModel}">
                     <views:MaterialView></views:MaterialView>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AddEditMaterialViewModel}">
+                    <views:AddEditMaterialView></views:AddEditMaterialView>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

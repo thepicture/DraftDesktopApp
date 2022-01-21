@@ -1,6 +1,7 @@
 ﻿using DraftDesktopApp.Commands;
 using DraftDesktopApp.Models;
 using DraftDesktopApp.Models.Entities;
+using DraftDesktopApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -268,6 +269,25 @@ namespace DraftDesktopApp.ViewModels
             set => _goToSelectedPageCommand = value;
         }
 
+        public RelayCommand EditMaterialCommand
+        {
+            get
+            {
+                if (_editMaterialCommand == null)
+                {
+                    _editMaterialCommand = new RelayCommand(PerformEditCommand);
+                }
+                return _editMaterialCommand;
+            }
+            set => _editMaterialCommand = value;
+        }
+
+        private void PerformEditCommand(object obj)
+        {
+            DependencyService.Get<INavigationService<ViewModelBase>>()
+                             .NavigateWithParameter<AddEditMaterialViewModel>(obj as Material);
+        }
+
         private void PerformPaginationCommand(object obj)
         {
             int pageNumber = (int)obj;
@@ -294,5 +314,7 @@ namespace DraftDesktopApp.ViewModels
         private int _foundMaterialsCount;
 
         private RelayCommand _goToSelectedPageCommand;
+
+        private RelayCommand _editMaterialCommand;
     }
 }
