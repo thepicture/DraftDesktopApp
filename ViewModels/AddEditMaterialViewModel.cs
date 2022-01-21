@@ -57,6 +57,7 @@ namespace DraftDesktopApp.ViewModels
 
         private void PerformSaveChanges(object obj)
         {
+            CurrentMaterial.MaterialType = CurrentType;
             if (CurrentMaterial.ID == 0)
             {
                 _context.Material.Add(CurrentMaterial);

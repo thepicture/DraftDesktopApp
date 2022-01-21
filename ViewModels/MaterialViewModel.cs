@@ -282,6 +282,26 @@ namespace DraftDesktopApp.ViewModels
             set => _editMaterialCommand = value;
         }
 
+        public RelayCommand AddNewMaterialCommand
+        {
+            get
+            {
+                if(_addNewMaterialCommand == null)
+                {
+                    _addNewMaterialCommand = new RelayCommand(PerformAddMaterial);
+                }
+                return _addNewMaterialCommand;
+            }
+
+            set => _addNewMaterialCommand = value;
+        }
+
+        private void PerformAddMaterial(object obj)
+        {
+            DependencyService.Get<INavigationService<ViewModelBase>>()
+                           .Navigate<AddEditMaterialViewModel>();
+        }
+
         private void PerformEditCommand(object obj)
         {
             DependencyService.Get<INavigationService<ViewModelBase>>()
@@ -316,5 +336,7 @@ namespace DraftDesktopApp.ViewModels
         private RelayCommand _goToSelectedPageCommand;
 
         private RelayCommand _editMaterialCommand;
+
+        private RelayCommand _addNewMaterialCommand;
     }
 }
