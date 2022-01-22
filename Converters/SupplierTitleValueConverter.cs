@@ -15,11 +15,7 @@ namespace DraftDesktopApp.Converters
                               object parameter,
                               CultureInfo culture)
         {
-            if(!(value is ObservableCollection<Supplier>))
-            {
-                return "a, b, c, ...";
-            }
-            ObservableCollection<Supplier> suppliers = (ObservableCollection<Supplier>)value;
+            HashSet<Supplier> suppliers = (HashSet<Supplier>)value;
             IEnumerable<string> suppliersTitles = suppliers.Select(s => s.Title);
             return string.Join(", ", suppliersTitles);
         }
