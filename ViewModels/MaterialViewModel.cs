@@ -77,6 +77,9 @@ namespace DraftDesktopApp.ViewModels
                     string lowerCaseSearchText = SearchText.ToLower();
                     return m.Title
                     .ToLower()
+                    .Contains(lowerCaseSearchText)
+                    || m.Description
+                    .ToLower()
                     .Contains(lowerCaseSearchText);
                 })
                     .ToList();
