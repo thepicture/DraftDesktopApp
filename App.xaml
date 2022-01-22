@@ -50,6 +50,8 @@
                     Value="5" />
             <Setter Property="Height"
                     Value="45" />
+            <Setter Property="Background"
+                    Value="{StaticResource AttentionAccent}" />
         </Style>
         <Style TargetType="Image">
             <Setter Property="Margin"

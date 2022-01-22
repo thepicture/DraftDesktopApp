@@ -7,11 +7,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DraftDesktopApp.ViewModels
 {
     public class MaterialViewModel : ViewModelBase
     {
+        private const int MaterialsPerPage = 15;
+        private const int AtLeastPagesCount = 1;
         private readonly DraftBaseEntities _context =
             new DraftBaseEntities();
         public MaterialViewModel()
@@ -132,7 +135,10 @@ namespace DraftDesktopApp.ViewModels
         private void LoadPages()
         {
             List<PaginatorItem> currentPageItems = new List<PaginatorItem>();
-            for (int i = 1; i < (int)Math.Ceiling(FoundMaterialsCount * 1.0 / 15 + 1); i++)
+            double paginatorItemsCount =
+                Math.Ceiling((Convert.ToDouble(FoundMaterialsCount)
+                              / MaterialsPerPage) + AtLeastPagesCount);
+            for (int i = 1; i < paginatorItemsCount; i++)
             {
                 currentPageItems.Add(new PaginatorItem(i, CurrentPage == i));
             }
@@ -348,5 +354,26 @@ namespace DraftDesktopApp.ViewModels
         private RelayCommand _editMaterialCommand;
 
         private RelayCommand _addNewMaterialCommand;
+
+        private RelayCommand clearFiltersCommand;
+
+        public ICommand ClearFiltersCommand
+        {
+            get
+            {
+                if (clearFiltersCommand == null)
+                {
+                    clearFiltersCommand = new RelayCommand(ClearFilters);
+                }
+
+                return clearFiltersCommand;
+            }
+        }
+
+        private void ClearFilters(object commandParameter)
+        {
+            CurrentFilterType = FilterTypes.First();
+            CurrentSortType = SortTypes.First();
+        }
     }
 }
