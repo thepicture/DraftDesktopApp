@@ -131,10 +131,14 @@ namespace DraftDesktopApp.ViewModels
 
         private void LoadPages()
         {
-            var currentPageItems = new List<PaginatorItem>();
-            for (int i = 1; i < (int)Math.Ceiling(FoundMaterialsCount * 1.0 / 15); i++)
+            List<PaginatorItem> currentPageItems = new List<PaginatorItem>();
+            for (int i = 1; i < (int)Math.Ceiling(FoundMaterialsCount * 1.0 / 15 + 1); i++)
             {
                 currentPageItems.Add(new PaginatorItem(i, CurrentPage == i));
+            }
+            if (currentPageItems.Count == 0)
+            {
+                currentPageItems.Add(new PaginatorItem(1, true));
             }
             PaginatorItems = currentPageItems;
         }
@@ -148,6 +152,7 @@ namespace DraftDesktopApp.ViewModels
             {
                 if (SetProperty(ref _searchText, value))
                 {
+                    CurrentPage = 1;
                     LoadMaterials();
                 }
             }
@@ -165,6 +170,7 @@ namespace DraftDesktopApp.ViewModels
             {
                 if (SetProperty(ref _currentSortType, value))
                 {
+                    CurrentPage = 1;
                     LoadMaterials();
                 }
             }
@@ -179,6 +185,7 @@ namespace DraftDesktopApp.ViewModels
             {
                 if (SetProperty(ref currentFilterType, value))
                 {
+                    CurrentPage = 1;
                     LoadMaterials();
                 }
             }
@@ -220,8 +227,11 @@ namespace DraftDesktopApp.ViewModels
 
         private void PerformGoToNextPage(object obj)
         {
-            CurrentPage++;
-            LoadMaterials();
+            if (CurrentPage < PaginatorItems.Count())
+            {
+                CurrentPage++;
+                LoadMaterials();
+            }
         }
 
         private RelayCommand _goToPreviousPageCommand;

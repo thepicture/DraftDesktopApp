@@ -19,7 +19,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Name="InfoGrid">
             <TextBlock>
@@ -132,14 +132,17 @@
                     Name="Paginator"
                     Grid.Row="3">
             <Button Background="{StaticResource AttentionAccent}"
-                    Command="{Binding GoToPreviousPageCommand}"
-                    Margin="0"
-                    Padding="0">&lt;</Button>
+                    Command="{Binding GoToPreviousPageCommand}">&lt;</Button>
             <ListView ItemsSource="{Binding PaginatorItems}"
-                      BorderBrush="Transparent">
+                      BorderBrush="Transparent"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Padding"
+                                Value="0" />
+                        <Setter Property="Margin"
+                                Value="0" />
+                        <Setter Property="BorderThickness"
                                 Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -153,6 +156,7 @@
                         <Button Content="{Binding Number}"
                                 Margin="0"
                                 Padding="0"
+                                Height="45"
                                 CommandParameter="{Binding Number}"
                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.GoToSelectedPageCommand}">
                             <Button.Style>
@@ -171,9 +175,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button Background="{StaticResource AttentionAccent}"
-                    Command="{Binding GoToNextPageCommand}"
-                    Margin="0"
-                    Padding="0">&gt;</Button>
+                    Command="{Binding GoToNextPageCommand}">&gt;</Button>
         </StackPanel>
     </Grid>
 </UserControl>
