@@ -127,42 +127,53 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-            <StackPanel HorizontalAlignment="Right"
-                        Orientation="Horizontal"
-                        Name="Paginator"
-                        Grid.Row="3">
-                <Button Background="{StaticResource AttentionAccent}"
-                        Command="{Binding GoToPreviousPageCommand}"
-                        Margin="0"
-                        Padding="0">&lt;</Button>
-                <ListView ItemsSource="{Binding PaginatorItems}"
-                          BorderBrush="Transparent">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding"
-                                    Value="0" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate >
-                            <Button Content="{Binding Number}"
-                                    Margin="0"
-                                    Padding="0"
-                                    Background="{StaticResource AttentionAccent}"
-                                    CommandParameter="{Binding Number}"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.GoToSelectedPageCommand}"></Button>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button Background="{StaticResource AttentionAccent}"
-                        Command="{Binding GoToNextPageCommand}"
-                        Margin="0"
-                        Padding="0">&gt;</Button>
-            </StackPanel>
+        <StackPanel HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Name="Paginator"
+                    Grid.Row="3">
+            <Button Background="{StaticResource AttentionAccent}"
+                    Command="{Binding GoToPreviousPageCommand}"
+                    Margin="0"
+                    Padding="0">&lt;</Button>
+            <ListView ItemsSource="{Binding PaginatorItems}"
+                      BorderBrush="Transparent">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding"
+                                Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Number}"
+                                Margin="0"
+                                Padding="0"
+                                CommandParameter="{Binding Number}"
+                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.GoToSelectedPageCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}"
+                                                     Value="True">
+                                            <Setter Property="Background"
+                                                    Value="{StaticResource AttentionAccent}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Background="{StaticResource AttentionAccent}"
+                    Command="{Binding GoToNextPageCommand}"
+                    Margin="0"
+                    Padding="0">&gt;</Button>
+        </StackPanel>
     </Grid>
 </UserControl>

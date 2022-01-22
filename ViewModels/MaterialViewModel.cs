@@ -134,7 +134,7 @@ namespace DraftDesktopApp.ViewModels
             var currentPageItems = new List<PaginatorItem>();
             for (int i = 1; i < (int)Math.Ceiling(FoundMaterialsCount * 1.0 / 15); i++)
             {
-                currentPageItems.Add(new PaginatorItem(i));
+                currentPageItems.Add(new PaginatorItem(i, CurrentPage == i));
             }
             PaginatorItems = currentPageItems;
         }
@@ -286,7 +286,7 @@ namespace DraftDesktopApp.ViewModels
         {
             get
             {
-                if(_addNewMaterialCommand == null)
+                if (_addNewMaterialCommand == null)
                 {
                     _addNewMaterialCommand = new RelayCommand(PerformAddMaterial);
                 }
