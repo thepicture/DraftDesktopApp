@@ -22,8 +22,7 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Grid Name="InfoGrid">
-            <TextBlock Style="{StaticResource HeaderBlock}"
-                       VerticalAlignment="Center">
+            <TextBlock>
                 <TextBlock.Inlines>
                     <Run Text="Выведено"></Run>
                     <Run Text="{Binding FoundMaterialsCount}"></Run>
@@ -55,7 +54,8 @@
                       DisplayMemberPath="Title"></ComboBox>
         </Grid>
         <ListView Grid.Row="2"
-                  ItemsSource="{Binding Materials}">
+                  ItemsSource="{Binding Materials}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
@@ -69,9 +69,13 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="5*" />
-                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
                             <Image Stretch="Uniform"
                                    Height="150">
                                 <Image.Source>
@@ -89,6 +93,7 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0"
                                            Grid.ColumnSpan="3">
@@ -98,9 +103,6 @@
                                         <Run Text="{Binding Title}"></Run>
                                     </TextBlock.Inlines>
                                 </TextBlock>
-                                <TextBlock Grid.ColumnSpan="3"
-                                           HorizontalAlignment="Right"
-                                           Text="{Binding CountInStock, StringFormat=Остаток: {0} шт}"></TextBlock>
                                 <TextBlock Grid.Row="1"
                                            Text="{Binding MinCount, StringFormat={}Минимальное количество: {0} шт}"></TextBlock>
                                 <TextBlock Grid.Row="2"
@@ -112,37 +114,45 @@
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </Grid>
-                            <StackPanel Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom">
-                                <Button Content="Редактировать"
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding CountInStock, StringFormat=Остаток: {0} шт}"
+                                       VerticalAlignment="Top"></TextBlock>
+                            <Button Content="Редактировать"
                                     CommandParameter="{Binding .}"
                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.EditMaterialCommand}"
-                                    HorizontalAlignment="Right"
-                                    Background="{StaticResource AttentionAccent}"
-                                    VerticalAlignment="Bottom"></Button>
-                            </StackPanel>
+                                    Grid.Row="1"
+                                    Background="{StaticResource AttentionAccent}"></Button>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid x:Name="Paginator"
-              Grid.Row="3">
             <StackPanel HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Name="Paginator"
+                        Grid.Row="3">
                 <Button Background="{StaticResource AttentionAccent}"
-                        Command="{Binding GoToPreviousPageCommand}">&lt;</Button>
-                <ListView ItemsSource="{Binding PaginatorItems}">
+                        Command="{Binding GoToPreviousPageCommand}"
+                        Margin="0"
+                        Padding="0">&lt;</Button>
+                <ListView ItemsSource="{Binding PaginatorItems}"
+                          BorderBrush="Transparent">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding"
+                                    Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"></StackPanel>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate >
                             <Button Content="{Binding Number}"
+                                    Margin="0"
+                                    Padding="0"
                                     Background="{StaticResource AttentionAccent}"
                                     CommandParameter="{Binding Number}"
                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.GoToSelectedPageCommand}"></Button>
@@ -150,8 +160,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <Button Background="{StaticResource AttentionAccent}"
-                        Command="{Binding GoToNextPageCommand}">&gt;</Button>
+                        Command="{Binding GoToNextPageCommand}"
+                        Margin="0"
+                        Padding="0">&gt;</Button>
             </StackPanel>
-        </Grid>
     </Grid>
 </UserControl>
