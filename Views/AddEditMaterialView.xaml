@@ -36,22 +36,37 @@
                      Height="300"
                      TextWrapping="Wrap"></TextBox>
 
-            <TextBlock Text="Список возможных поставщиков"></TextBlock>
-            <DataGrid ItemsSource="{Binding CurrentMaterial.Supplier}"
-                      IsReadOnly="True"
-                      AutoGenerateColumns="False"
-                      ColumnWidth="*">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название поставщика"
-                                        Binding="{Binding Title}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="ИНН"
-                                        Binding="{Binding INN}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Уровень качества"
-                                        Binding="{Binding QualityRating}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Тип"
-                                        Binding="{Binding SupplierType}"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <Border Style="{StaticResource CommonBorder}"
+                    BorderBrush="Black"
+                    BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Список возможных поставщиков"></TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Поиск по наименованию поставщика"></TextBlock>
+                        <TextBox Text="{Binding SupplierSearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Grid.Column="1"></TextBox>
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding MaterialSuppliers}"
+                              IsReadOnly="True"
+                              AutoGenerateColumns="False"
+                              ColumnWidth="*">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название поставщика"
+                                                Binding="{Binding Title}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ИНН"
+                                                Binding="{Binding INN}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Уровень качества"
+                                                Binding="{Binding QualityRating}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Тип"
+                                                Binding="{Binding SupplierType}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
 
             <Button Content="Сохранить"
                     Command="{Binding SaveChangesCommand}"></Button>

@@ -24,6 +24,10 @@ namespace DraftDesktopApp.ViewModels
             CurrentMaterial = _context.Material.Find(material.ID);
             MaterialTypes = _context.MaterialType.ToList();
             CurrentType = MaterialTypes.FirstOrDefault(t => t.ID == material.MaterialTypeID);
+            if (material.Supplier.Count() > 0)
+            {
+                UpdateSuppliers();
+            }
         }
 
         public Material CurrentMaterial
@@ -118,5 +122,39 @@ namespace DraftDesktopApp.ViewModels
         private RelayCommand _saveChangesCommand;
 
         private RelayCommand _deleteMaterialCommand;
+
+        private string _supplierSearchText = string.Empty;
+
+        public string SupplierSearchText
+        {
+            get => _supplierSearchText;
+            set
+            {
+                if (SetProperty(ref _supplierSearchText, value))
+                {
+                    UpdateSuppliers();
+                }
+            }
+        }
+
+        private void UpdateSuppliers()
+        {
+            MaterialSuppliers = CurrentMaterial.Supplier
+                .Where(s =>
+                {
+                    string searchText = SupplierSearchText.ToLower();
+                    return s.Title
+                    .ToLower()
+                    .Contains(searchText);
+                });
+        }
+
+        private IEnumerable<Supplier> _materialSuppliers;
+
+        public IEnumerable<Supplier> MaterialSuppliers
+        {
+            get => _materialSuppliers;
+            set => SetProperty(ref _materialSuppliers, value);
+        }
     }
 }
