@@ -1,6 +1,5 @@
 ﻿using DraftDesktopApp.Commands;
 using DraftDesktopApp.Models.Entities;
-using DraftDesktopApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,8 +89,7 @@ namespace DraftDesktopApp.ViewModels
 
             SaveChanges();
 
-            DependencyService.Get<INavigationService<ViewModelBase>>()
-                               .Navigate<MaterialViewModel>();
+            NavigationService.Navigate<MaterialViewModel>();
         }
 
         private void SaveChanges()
@@ -99,8 +97,7 @@ namespace DraftDesktopApp.ViewModels
             try
             {
                 _context.SaveChanges();
-                DependencyService.Get<INavigationService<ViewModelBase>>()
-                                 .Navigate<MaterialViewModel>();
+                NavigationService.Navigate<MaterialViewModel>();
             }
             catch (Exception ex)
             {

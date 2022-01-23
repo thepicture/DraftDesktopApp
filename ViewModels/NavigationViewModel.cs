@@ -1,16 +1,12 @@
-﻿using DraftDesktopApp.Services;
-
-namespace DraftDesktopApp.ViewModels
+﻿namespace DraftDesktopApp.ViewModels
 {
     public class NavigationViewModel : ViewModelBase
     {
-        public ViewModelBase CurrentViewModel =>
-            DependencyService.Get<INavigationService<ViewModelBase>>().CurrentNavigator;
+        public ViewModelBase CurrentViewModel => NavigationService.CurrentNavigator;
 
         public NavigationViewModel()
         {
-            DependencyService.Get<INavigationService<ViewModelBase>>().Navigated +=
-                OnNavigated;
+            NavigationService.Navigated += OnNavigated;
         }
 
         private void OnNavigated()

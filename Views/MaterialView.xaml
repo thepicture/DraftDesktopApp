@@ -64,7 +64,9 @@
         </Grid>
         <ListView Grid.Row="2"
                   ItemsSource="{Binding Materials}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Name="MaterialsList"
+                  SelectionMode="Multiple">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
@@ -136,6 +138,27 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Content="Изменить минимальное количество на ..."
+                VerticalContentAlignment="Center"
+                Grid.Row="3"
+                HorizontalAlignment="Left"
+                CommandParameter="{Binding ElementName=MaterialsList, Path=SelectedItems}"
+                Command="{Binding GoToChangeMinCountCommand}">
+            <Button.Style>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=MaterialsList, Path=SelectedItems.Count}"
+                                     Value="0">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <StackPanel HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Name="Paginator"

@@ -13,7 +13,9 @@ namespace DraftDesktopApp.ViewModels
         private string _title;
         private bool _isBusy;
         private RelayCommand _goBackCommand;
-
+        private bool _isValid;
+        public INavigationService<ViewModelBase> NavigationService =>
+            DependencyService.Get<INavigationService<ViewModelBase>>();
         public string Title
         {
             get => _title;
@@ -43,10 +45,15 @@ namespace DraftDesktopApp.ViewModels
             set => _goBackCommand = value;
         }
 
+        public bool IsValid
+        {
+            get => _isValid;
+            set => SetProperty(ref _isValid, value);
+        }
+
         private void PerformGoBack(object obj)
         {
-            DependencyService.Get<INavigationService<ViewModelBase>>()
-                             .GoBack();
+            NavigationService.GoBack();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -37,7 +37,9 @@ namespace DraftDesktopApp.Services
             if (Journal.Count > 1)
             {
                 _ = Journal.Pop();
-                CurrentNavigator = Journal.Peek();
+                Type previousViewModel = Journal.Peek().GetType();
+                CurrentNavigator = (ViewModelBase)Activator
+                    .CreateInstance(previousViewModel);
                 Navigated?.Invoke();
             }
         }

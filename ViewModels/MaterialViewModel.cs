@@ -1,8 +1,8 @@
 ﻿using DraftDesktopApp.Commands;
 using DraftDesktopApp.Models;
 using DraftDesktopApp.Models.Entities;
-using DraftDesktopApp.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -317,14 +317,13 @@ namespace DraftDesktopApp.ViewModels
 
         private void PerformAddMaterial(object obj)
         {
-            DependencyService.Get<INavigationService<ViewModelBase>>()
-                           .Navigate<AddEditMaterialViewModel>();
+            NavigationService.Navigate<AddEditMaterialViewModel>();
         }
 
         private void PerformEditCommand(object obj)
         {
-            DependencyService.Get<INavigationService<ViewModelBase>>()
-                             .NavigateWithParameter<AddEditMaterialViewModel>(obj as Material);
+            NavigationService
+                .NavigateWithParameter<AddEditMaterialViewModel>(obj as Material);
         }
 
         private void PerformPaginationCommand(object obj)
@@ -377,6 +376,27 @@ namespace DraftDesktopApp.ViewModels
         {
             CurrentFilterType = FilterTypes.First();
             CurrentSortType = SortTypes.First();
+        }
+
+        private RelayCommand goToChangeMinCountCommand;
+
+        public ICommand GoToChangeMinCountCommand
+        {
+            get
+            {
+                if (goToChangeMinCountCommand == null)
+                {
+                    goToChangeMinCountCommand = new RelayCommand(GoToChangeMinCount);
+                }
+
+                return goToChangeMinCountCommand;
+            }
+        }
+
+        private void GoToChangeMinCount(object commandParameter)
+        {
+            NavigationService.NavigateWithParameter<MaterialMinimumCountViewModel>
+                (((IList)commandParameter).Cast<Material>());
         }
     }
 }

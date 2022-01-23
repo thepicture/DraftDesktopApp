@@ -69,6 +69,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MaterialMinimumCountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MaterialView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,11 +147,15 @@
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
     <Compile Include="ViewModels\AddEditMaterialViewModel.cs" />
+    <Compile Include="ViewModels\MaterialMinimumCountViewModel.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AddEditMaterialView.xaml.cs">
       <DependentUpon>AddEditMaterialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MaterialMinimumCountView.xaml.cs">
+      <DependentUpon>MaterialMinimumCountView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MaterialView.xaml.cs">
       <DependentUpon>MaterialView.xaml</DependentUpon>
