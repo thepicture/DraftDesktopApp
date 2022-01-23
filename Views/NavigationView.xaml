@@ -14,7 +14,8 @@
         MinHeight="850"
         MinWidth="900"
         Icon="/DraftDesktopApp;component/Resources/icon.ico"
-        FontFamily="Segoe Print">
+        FontFamily="Segoe Print"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
