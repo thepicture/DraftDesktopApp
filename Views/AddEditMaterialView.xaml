@@ -35,14 +35,11 @@
             <TextBox Text="{Binding CurrentMaterial.Description}"
                      Height="300"
                      TextWrapping="Wrap"></TextBox>
-            <Button Background="{StaticResource AttentionAccent}"
-                    Content="Сохранить"
+            <Button Content="Сохранить"
                     Command="{Binding SaveChangesCommand}"></Button>
-            <Button Background="{StaticResource AttentionAccent}"
-                    Content="Вернуться назад"
+            <Button Content="Вернуться назад"
                     Command="{Binding GoBackCommand}"></Button>
-            <Button Background="{StaticResource AttentionAccent}"
-                    Content="Удалить"
+            <Button Content="Удалить"
                     Command="{Binding DeleteMaterialCommand}"
                     IsEnabled="{Binding CurrentMaterial.ID}"
                     Opacity="{Binding CurrentMaterial.ID}"></Button>
