@@ -13,6 +13,7 @@
              Background="White">
     <UserControl.Resources>
         <converters:SupplierTitleValueConverter x:Key="SupplierTitle"></converters:SupplierTitleValueConverter>
+        <converters:MaterialBackgroundValueConverter x:Key="MaterialBackground"></converters:MaterialBackgroundValueConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -73,7 +74,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black"
-                            BorderThickness="1">
+                            BorderThickness="1"
+                            Background="{Binding ., Converter={StaticResource MaterialBackground}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />

@@ -82,6 +82,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\MaterialBackgroundValueConverter.cs" />
     <Compile Include="Converters\SupplierTitleValueConverter.cs" />
     <Compile Include="Models\Entities\Agent.cs">
       <DependentUpon>DraftModel.tt</DependentUpon>
