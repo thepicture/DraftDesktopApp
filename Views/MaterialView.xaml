@@ -76,6 +76,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black"
+                            Style="{StaticResource CommonBorder}"
                             BorderThickness="1"
                             Background="{Binding ., Converter={StaticResource MaterialBackground}}">
                         <Grid>
