@@ -219,5 +219,41 @@ namespace DraftDesktopApp.ViewModels
             get => _currentPosition;
             set => SetProperty(ref _currentPosition, value);
         }
+
+        private RelayCommand deletePositionCommand;
+
+        public ICommand DeletePositionCommand
+        {
+            get
+            {
+                if (deletePositionCommand == null)
+                {
+                    deletePositionCommand = new RelayCommand(DeletePosition);
+                }
+
+                return deletePositionCommand;
+            }
+        }
+
+        private void DeletePosition(object commandParameter)
+        {
+            Supplier selectedSupplier = commandParameter as Supplier;
+            Supplier materialSupplier = CurrentMaterial.Supplier
+                .First(s => s.ID == selectedSupplier.ID);
+            if (CurrentMaterial.Supplier.Remove(materialSupplier))
+            {
+                UpdateSuppliers();
+                SupplierPositions = _context.Supplier
+                      .ToList()
+                      .Where(p =>
+                      {
+                          return !CurrentMaterial.Supplier
+                          .Select(s => s.ID)
+                          .Contains(p.ID);
+                      })
+                      .ToList();
+                CurrentPosition = SupplierPositions.FirstOrDefault();
+            }
+        }
     }
 }
