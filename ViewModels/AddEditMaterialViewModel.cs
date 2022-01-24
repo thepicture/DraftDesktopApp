@@ -3,6 +3,7 @@ using DraftDesktopApp.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace DraftDesktopApp.ViewModels
 {
@@ -11,12 +12,15 @@ namespace DraftDesktopApp.ViewModels
         private Material _currentMaterial;
         private IList<MaterialType> _materialTypes;
         private MaterialType _currentType;
-        private DraftBaseEntities _context = new DraftBaseEntities();
+        private readonly DraftBaseEntities _context = new DraftBaseEntities();
         public AddEditMaterialViewModel()
         {
             CurrentMaterial = new Material();
             MaterialTypes = _context.MaterialType.ToList();
             CurrentType = MaterialTypes.First();
+
+            SupplierPositions = _context.Supplier.ToList();
+            CurrentPosition = SupplierPositions.FirstOrDefault();
         }
 
         public AddEditMaterialViewModel(Material material)
@@ -27,6 +31,17 @@ namespace DraftDesktopApp.ViewModels
             if (material.Supplier.Count() > 0)
             {
                 UpdateSuppliers();
+
+                SupplierPositions = _context.Supplier
+                    .ToList()
+                    .Where(p =>
+                    {
+                        return !CurrentMaterial.Supplier
+                        .Select(s => s.ID)
+                        .Contains(p.ID);
+                    })
+                    .ToList();
+                CurrentPosition = SupplierPositions.FirstOrDefault();
             }
         }
 
@@ -81,15 +96,16 @@ namespace DraftDesktopApp.ViewModels
 
             if (CurrentMaterial.Supplier.Count() > 0)
             {
-                _context.Supplier.RemoveRange(CurrentMaterial.Supplier);
+                _ = _context.Supplier.RemoveRange(CurrentMaterial.Supplier);
             }
 
             if (CurrentMaterial.MaterialCountHistory.Count() > 0)
             {
-                _context.MaterialCountHistory.RemoveRange(CurrentMaterial.MaterialCountHistory);
+                _ = _context.MaterialCountHistory
+                    .RemoveRange(CurrentMaterial.MaterialCountHistory);
             }
 
-            _context.Material.Remove(CurrentMaterial);
+            _ = _context.Material.Remove(CurrentMaterial);
 
             SaveChanges();
 
@@ -100,7 +116,7 @@ namespace DraftDesktopApp.ViewModels
         {
             try
             {
-                _context.SaveChanges();
+                _ = _context.SaveChanges();
                 NavigationService.Navigate<MaterialViewModel>();
             }
             catch (Exception ex)
@@ -114,7 +130,7 @@ namespace DraftDesktopApp.ViewModels
             CurrentMaterial.MaterialType = CurrentType;
             if (CurrentMaterial.ID == 0)
             {
-                _context.Material.Add(CurrentMaterial);
+                _ = _context.Material.Add(CurrentMaterial);
             }
             SaveChanges();
         }
@@ -155,6 +171,53 @@ namespace DraftDesktopApp.ViewModels
         {
             get => _materialSuppliers;
             set => SetProperty(ref _materialSuppliers, value);
+        }
+
+        private IList<Supplier> _supplierPositions;
+
+        public IList<Supplier> SupplierPositions
+        {
+            get => _supplierPositions;
+            set => SetProperty(ref _supplierPositions, value);
+        }
+
+        private RelayCommand _addPositionCommand;
+
+        public ICommand AddPositionCommand
+        {
+            get
+            {
+                if (_addPositionCommand == null)
+                {
+                    _addPositionCommand = new RelayCommand(AddPosition,
+                                                           CanAddPositionExecute);
+                }
+
+                return _addPositionCommand;
+            }
+        }
+
+        private bool CanAddPositionExecute(object arg)
+        {
+            return SupplierPositions.Count() > 0;
+        }
+
+        private void AddPosition(object commandParameter)
+        {
+            CurrentMaterial.Supplier.Add(CurrentPosition);
+            UpdateSuppliers();
+            SupplierPositions = SupplierPositions
+                .Where(p => p.ID != CurrentPosition.ID)
+                .ToList();
+            CurrentPosition = SupplierPositions.FirstOrDefault();
+        }
+
+        private Supplier _currentPosition;
+
+        public Supplier CurrentPosition
+        {
+            get => _currentPosition;
+            set => SetProperty(ref _currentPosition, value);
         }
     }
 }

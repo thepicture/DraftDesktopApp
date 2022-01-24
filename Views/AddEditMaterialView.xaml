@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DraftDesktopApp.Views"
              xmlns:viewmodels="clr-namespace:DraftDesktopApp.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="1250"
+             d:DesignHeight="1550"
              d:DesignWidth="1200"
              d:DataContext="{d:DesignInstance Type=viewmodels:AddEditMaterialViewModel}"
              Background="White">
@@ -40,15 +40,43 @@
                     BorderBrush="Black"
                     BorderThickness="1">
                 <StackPanel>
-                    <TextBlock Text="Список возможных поставщиков"></TextBlock>
+                    <TextBlock Text="Список возможных поставщиков"
+                               HorizontalAlignment="Center"></TextBlock>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Поиск по наименованию поставщика"></TextBlock>
+                        <TextBlock Text="Поиск по наименованию поставщика"
+                                   TextWrapping="Wrap"></TextBlock>
                         <TextBox Text="{Binding SupplierSearchText, UpdateSourceTrigger=PropertyChanged}"
                                  Grid.Column="1"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Выбрать позицию для добавления:"
+                                   TextWrapping="Wrap"></TextBlock>
+                        <ComboBox ItemsSource="{Binding SupplierPositions}"
+                                  SelectedItem="{Binding CurrentPosition}"
+                                  Grid.Column="1">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Inlines>
+                                            <Run Text="{Binding SupplierType}"></Run>
+                                            <Run Text="{Binding Title}"></Run>
+                                        </TextBlock.Inlines>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Content="Добавить позицию"
+                                Grid.Column="2"
+                                Command="{Binding AddPositionCommand}"></Button>
                     </Grid>
                     <DataGrid ItemsSource="{Binding MaterialSuppliers}"
                               IsReadOnly="True"
