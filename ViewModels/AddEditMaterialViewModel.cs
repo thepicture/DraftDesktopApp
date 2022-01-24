@@ -158,35 +158,29 @@ namespace DraftDesktopApp.ViewModels
             {
                 return;
             }
+            CurrentMaterial.Supplier.Clear();
+            CurrentMaterial.MaterialCountHistory.Clear();
 
-            if (CurrentMaterial.Supplier.Count() > 0)
+            _context.Material.Remove(CurrentMaterial);
+
+            if (IsSavedChanges())
             {
-                _ = _context.Supplier.RemoveRange(CurrentMaterial.Supplier);
+                NavigationService.Navigate<MaterialViewModel>();
             }
 
-            if (CurrentMaterial.MaterialCountHistory.Count() > 0)
-            {
-                _ = _context.MaterialCountHistory
-                    .RemoveRange(CurrentMaterial.MaterialCountHistory);
-            }
-
-            _ = _context.Material.Remove(CurrentMaterial);
-
-            SaveChanges();
-
-            NavigationService.Navigate<MaterialViewModel>();
         }
 
-        private void SaveChanges()
+        private bool IsSavedChanges()
         {
             try
             {
                 _ = _context.SaveChanges();
-                NavigationService.Navigate<MaterialViewModel>();
+                return true;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false;
             }
         }
 
@@ -197,7 +191,10 @@ namespace DraftDesktopApp.ViewModels
             {
                 _ = _context.Material.Add(CurrentMaterial);
             }
-            SaveChanges();
+            if (IsSavedChanges())
+            {
+                NavigationService.Navigate<MaterialViewModel>();
+            }
         }
 
         private RelayCommand _saveChangesCommand;
