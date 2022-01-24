@@ -1,5 +1,6 @@
 ﻿using DraftDesktopApp.Commands;
 using DraftDesktopApp.Models.Entities;
+using DraftDesktopApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -237,7 +238,7 @@ namespace DraftDesktopApp.ViewModels
             set => SetProperty(ref _materialSuppliers, value);
         }
 
-        private IList<Supplier> _supplierPositions;
+        private IList<Supplier> _supplierPositions = new List<Supplier>();
 
         public IList<Supplier> SupplierPositions
         {
@@ -332,5 +333,32 @@ namespace DraftDesktopApp.ViewModels
         }
         private string _validationText = string.Empty;
         private string _minimumBuyMaterialCountText = string.Empty;
+
+        private RelayCommand changePictureCommand;
+
+        public ICommand ChangePictureCommand
+        {
+            get
+            {
+                if (changePictureCommand == null)
+                {
+                    changePictureCommand = new RelayCommand(ChangePicture);
+                }
+
+                return changePictureCommand;
+            }
+        }
+
+        private void ChangePicture(object commandParameter)
+        {
+            IFileSelector<byte[]> fileSelector = DependencyService
+                .Get<IFileSelector<byte[]>>();
+            string filter = "Image Files (*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
+            if (fileSelector.TryToSelect(out byte[] materialImage, filter))
+            {
+                CurrentMaterial.ImageBytes = materialImage;
+                OnPropertyChanged(nameof(CurrentMaterial));
+            }
+        }
     }
 }

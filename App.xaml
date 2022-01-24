@@ -57,6 +57,8 @@
         <Style TargetType="Image">
             <Setter Property="Margin"
                     Value="5" />
+            <Setter Property="Stretch"
+                    Value="Uniform" />
             <Setter Property="BitmapEffect">
                 <Setter.Value>
                     <DropShadowBitmapEffect Color="Black"

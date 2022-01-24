@@ -144,7 +144,9 @@
     </Compile>
     <Compile Include="Models\PaginatorItem.cs" />
     <Compile Include="Services\DependencyService.cs" />
+    <Compile Include="Services\IFileSelector.cs" />
     <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\PhotoFileSelector.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
     <Compile Include="ViewModels\AddEditMaterialViewModel.cs" />
     <Compile Include="ViewModels\MaterialMinimumCountViewModel.cs" />

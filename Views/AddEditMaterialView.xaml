@@ -47,9 +47,38 @@
                 <TextBox Text="{Binding CurrentMaterial.MinCount, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 <TextBlock Text="Стоимость за единицу"></TextBlock>
                 <TextBox Text="{Binding CurrentMaterial.Cost, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBlock Text="{Binding Errors[Cost]}"></TextBlock>
                 <TextBlock Text="Изображение"></TextBlock>
-                <Image Source="{Binding CurrentMaterial.Image}"></Image>
+                <Image Height="200"
+                       Width="200"
+                       HorizontalAlignment="Left">
+                    <Image.Source>
+                        <Binding Path="CurrentMaterial.ImageBytes">
+                            <Binding.TargetNullValue>
+                                <ImageSource>
+                                    /Resources/picture.png
+                                </ImageSource>
+                            </Binding.TargetNullValue>
+                        </Binding>
+                    </Image.Source>
+                </Image>
+                <Button Width="200"
+                        HorizontalAlignment="Left"
+                        Command="{Binding ChangePictureCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Content"
+                                    Value="Изменить изображение ..." />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentMaterial.ImageBytes}"
+                                             Value="{x:Null}">
+                                    <Setter Property="Content"
+                                            Value="Добавить изображение ..." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <TextBlock Text="Подробное описание"></TextBlock>
                 <TextBox Text="{Binding CurrentMaterial.Description}"
                          Height="300"

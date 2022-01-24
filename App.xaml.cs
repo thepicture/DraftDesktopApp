@@ -14,6 +14,7 @@ namespace DraftDesktopApp
             base.OnStartup(e);
 
             DependencyService.Register<ViewModelNavigationService>();
+            DependencyService.Register<SimpleFileSelector>();
 
             Window window = new NavigationView
             {
