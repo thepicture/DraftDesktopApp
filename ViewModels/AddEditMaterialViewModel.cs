@@ -3,6 +3,8 @@ using DraftDesktopApp.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace DraftDesktopApp.ViewModels
@@ -66,11 +68,44 @@ namespace DraftDesktopApp.ViewModels
             {
                 if (_saveChangesCommand == null)
                 {
-                    _saveChangesCommand = new RelayCommand(PerformSaveChanges);
+                    _saveChangesCommand = new RelayCommand(PerformSaveChanges, CanSaveChangesExecute);
                 }
                 return _saveChangesCommand;
             }
             set => _saveChangesCommand = value;
+        }
+
+        private bool CanSaveChangesExecute(object arg)
+        {
+            StringBuilder errors = new StringBuilder();
+            if (!new Regex("[0-9]+(.[0-9]{1,2})?").IsMatch(CurrentMaterial.Cost.ToString())
+                || CurrentMaterial.Cost < 0)
+            {
+                _ = errors.AppendLine("Стоимость материала не может быть " +
+                    "отрицательной и записывается только с точностью " +
+                    "до сотых");
+            }
+            if (CurrentMaterial.MinCount < 0)
+            {
+                _ = errors.AppendLine("Минимальное количество " +
+                    "не может быть отрицательным");
+            }
+            if (CurrentMaterial.CountInStock < 0)
+            {
+                _ = errors.AppendLine("Количество на складе " +
+                    "не может быть отрицательным");
+            }
+            if (CurrentMaterial.CountInPack < 0)
+            {
+                _ = errors.AppendLine("Минимальное количество " +
+                    "не может быть отрицательным");
+            }
+            if (string.IsNullOrEmpty(CurrentMaterial.Unit))
+            {
+                _ = errors.AppendLine("Единица измерения - обязательное поле");
+            }
+            ValidationText = errors.ToString();
+            return string.IsNullOrEmpty(ValidationText);
         }
 
         public RelayCommand DeleteMaterialCommand
@@ -235,6 +270,12 @@ namespace DraftDesktopApp.ViewModels
             }
         }
 
+        public string ValidationText
+        {
+            get => _validationText;
+            set => SetProperty(ref _validationText, value);
+        }
+
         private void DeletePosition(object commandParameter)
         {
             Supplier selectedSupplier = commandParameter as Supplier;
@@ -255,5 +296,6 @@ namespace DraftDesktopApp.ViewModels
                 CurrentPosition = SupplierPositions.FirstOrDefault();
             }
         }
+        private string _validationText = string.Empty;
     }
 }
