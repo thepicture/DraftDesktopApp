@@ -12,15 +12,21 @@
              Background="White">
     <Grid>
         <Border Background="White"
-              VerticalAlignment="Top"
-              Height="auto"
-              BorderBrush="Black"
-              BorderThickness="1"
-              Panel.ZIndex="1">
-        <TextBlock Text="{Binding ValidationText}"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   Foreground="Black"></TextBlock>
+                VerticalAlignment="Top"
+                Height="auto"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Panel.ZIndex="1">
+            <Grid>
+                <TextBlock Text="{Binding ValidationText}"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"></TextBlock>
+                <TextBlock Text="{Binding MinimumBuyMaterialCountText}"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"></TextBlock>
+            </Grid>
         </Border>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">

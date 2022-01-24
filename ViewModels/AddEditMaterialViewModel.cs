@@ -105,7 +105,36 @@ namespace DraftDesktopApp.ViewModels
                 _ = errors.AppendLine("Единица измерения - обязательное поле");
             }
             ValidationText = errors.ToString();
-            return string.IsNullOrEmpty(ValidationText);
+            if (string.IsNullOrEmpty(ValidationText))
+            {
+                CalculateMinimumMaterialBuyCount();
+                return true;
+            }
+            else
+            {
+                MinimumBuyMaterialCountText = string.Empty;
+                return false;
+            }
+        }
+
+        private void CalculateMinimumMaterialBuyCount()
+        {
+            if (CurrentMaterial.CountInStock < CurrentMaterial.MinCount)
+            {
+                double countDifference =
+                    (double)(CurrentMaterial.MinCount
+                    - CurrentMaterial.CountInStock);
+                int packsToBuy = (int)Math.Ceiling(countDifference
+                    * 1.0
+                    / CurrentMaterial.CountInPack);
+                MinimumBuyMaterialCountText = $"Необходимо купить " +
+                    $"упаковок: {packsToBuy}.\nОбщая сумма за покупку: " +
+                    $"{CurrentMaterial.Cost * packsToBuy} рублей";
+            }
+            else
+            {
+                MinimumBuyMaterialCountText = "Закупка не нужна. Материалы есть на складе";
+            }
         }
 
         public RelayCommand DeleteMaterialCommand
@@ -275,6 +304,11 @@ namespace DraftDesktopApp.ViewModels
             get => _validationText;
             set => SetProperty(ref _validationText, value);
         }
+        public string MinimumBuyMaterialCountText
+        {
+            get => _minimumBuyMaterialCountText;
+            set => SetProperty(ref _minimumBuyMaterialCountText, value);
+        }
 
         private void DeletePosition(object commandParameter)
         {
@@ -297,5 +331,6 @@ namespace DraftDesktopApp.ViewModels
             }
         }
         private string _validationText = string.Empty;
+        private string _minimumBuyMaterialCountText = string.Empty;
     }
 }
