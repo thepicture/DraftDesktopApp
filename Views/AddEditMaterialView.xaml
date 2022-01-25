@@ -32,21 +32,28 @@
                       VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Text="Наименование"></TextBlock>
-                <TextBox Text="{Binding CurrentMaterial.Title}"></TextBox>
+                <TextBox Text="{Binding CurrentMaterial.Title}"
+                         ToolTip="Введите наименование материала"></TextBox>
                 <TextBlock Text="Тип материала"></TextBlock>
                 <ComboBox ItemsSource="{Binding MaterialTypes}"
                           SelectedItem="{Binding CurrentType}"
-                          DisplayMemberPath="Title"></ComboBox>
+                          DisplayMemberPath="Title"
+                          ToolTip="Выберите тип материала"></ComboBox>
                 <TextBlock Text="Количество на складе"></TextBlock>
-                <TextBox Text="{Binding CurrentMaterial.CountInStock, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding CurrentMaterial.CountInStock, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Введите количество материала на складе"></TextBox>
                 <TextBlock Text="Единица измерения"></TextBlock>
-                <TextBox Text="{Binding CurrentMaterial.Unit, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding CurrentMaterial.Unit, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Введите текстом единицу измерения материала"></TextBox>
                 <TextBlock Text="Количество в упаковке"></TextBlock>
-                <TextBox Text="{Binding CurrentMaterial.CountInPack, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding CurrentMaterial.CountInPack, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Введите количество в упаковке"></TextBox>
                 <TextBlock Text="Минимальное количество"></TextBlock>
-                <TextBox Text="{Binding CurrentMaterial.MinCount, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBlock Text="Стоимость за единицу"></TextBlock>
-                <TextBox Text="{Binding CurrentMaterial.Cost, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding CurrentMaterial.MinCount, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Введите минимальное количество материала"></TextBox>
+                <TextBlock Text="Стоимость за единицу в рублях (с точностью до сотых)"></TextBlock>
+                <TextBox Text="{Binding CurrentMaterial.Cost, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Введите стоимость за единицу материала в рублях"></TextBox>
                 <TextBlock Text="Изображение"></TextBlock>
                 <Image Height="200"
                        Width="200"
@@ -63,7 +70,8 @@
                 </Image>
                 <Button Width="200"
                         HorizontalAlignment="Left"
-                        Command="{Binding ChangePictureCommand}">
+                        Command="{Binding ChangePictureCommand}"
+                        ToolTip="Выбрать изображение материала">
                     <Button.Style>
                         <Style TargetType="Button"
                                BasedOn="{StaticResource {x:Type Button}}">
@@ -79,10 +87,11 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <TextBlock Text="Подробное описание"></TextBlock>
+                <TextBlock Text="Подробное описание (можно оставить пустым)"></TextBlock>
                 <TextBox Text="{Binding CurrentMaterial.Description}"
                          Height="300"
-                         TextWrapping="Wrap"></TextBox>
+                         TextWrapping="Wrap"
+                         ToolTip="Введите подробное описание материала"></TextBox>
 
                 <Border Style="{StaticResource CommonBorder}"
                         BorderBrush="Black"
@@ -98,7 +107,8 @@
                             <TextBlock Text="Поиск по наименованию поставщика"
                                        TextWrapping="Wrap"></TextBlock>
                             <TextBox Text="{Binding SupplierSearchText, UpdateSourceTrigger=PropertyChanged}"
-                                     Grid.Column="1"></TextBox>
+                                     Grid.Column="1"
+                                     ToolTip="Введите текст для поиска по наименованию поставщика"></TextBox>
                         </Grid>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -110,7 +120,8 @@
                                        TextWrapping="Wrap"></TextBlock>
                             <ComboBox ItemsSource="{Binding SupplierPositions}"
                                       SelectedItem="{Binding CurrentPosition}"
-                                      Grid.Column="1">
+                                      Grid.Column="1"
+                                      ToolTip="Выберите поставщика для добавления его к текущему материалу">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock>
@@ -124,7 +135,8 @@
                             </ComboBox>
                             <Button Content="Добавить позицию"
                                     Grid.Column="2"
-                                    Command="{Binding AddPositionCommand}"></Button>
+                                    Command="{Binding AddPositionCommand}"
+                                    ToolTip="Нажмите, чтобы добавить выбранного в выпадающем списке поставщика к материалу"></Button>
                         </Grid>
                         <DataGrid ItemsSource="{Binding MaterialSuppliers}"
                                   IsReadOnly="True"
@@ -145,7 +157,8 @@
                                             <Button Content="Удалить позицию"
                                                     CommandParameter="{Binding .}"
                                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, 
-                                                                                                 Path=DataContext.DeletePositionCommand}"></Button>
+                                                                                                 Path=DataContext.DeletePositionCommand}"
+                                                    ToolTip="Нажмите, чтобы убрать ассоциацию между поставщиком и материалом (поставщик останется в выпадающем списке)"></Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -155,13 +168,16 @@
                 </Border>
 
                 <Button Content="Сохранить"
-                        Command="{Binding SaveChangesCommand}"></Button>
+                        Command="{Binding SaveChangesCommand}"
+                        ToolTip="Нажмите, чтобы сохранить изменения. Если кнопка недоступна, то проверьте ошибки валидации в верхней части окна"></Button>
                 <Button Content="Вернуться назад"
-                        Command="{Binding GoBackCommand}"></Button>
+                        Command="{Binding GoBackCommand}"
+                        ToolTip="Нажмите, чтобы вернуться на предыдущую страницу"></Button>
                 <Button Content="Удалить"
                         Command="{Binding DeleteMaterialCommand}"
                         IsEnabled="{Binding CurrentMaterial.ID}"
-                        Opacity="{Binding CurrentMaterial.ID}"></Button>
+                        Opacity="{Binding CurrentMaterial.ID}"
+                        ToolTip="Нажмите, чтобы удалить материал без возможности восстановления"></Button>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -11,11 +11,14 @@
              d:DesignWidth="800">
     <StackPanel VerticalAlignment="Center">
         <TextBlock Text="Введите минимальное количество:"></TextBlock>
-        <TextBox Text="{Binding CurrentMinimumCount, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Text="{Binding CurrentMinimumCount, UpdateSourceTrigger=PropertyChanged}"
+                 ToolTip="Введите минимально количество, которое применится ко всем ранее выбранным материалам"></TextBox>
         <Button Content="Изменить"
                 IsEnabled="{Binding IsValid}"
-                Command="{Binding ChangeMinCountCommand}"></Button>
+                Command="{Binding ChangeMinCountCommand}"
+                ToolTip="Нажмите, чтобы применить изменения минимального количества выбранных материалов"></Button>
         <Button Content="Назад"
-                Command="{Binding GoBackCommand}"></Button>
+                Command="{Binding GoBackCommand}"
+                ToolTip="Нажмите, чтобы вернуться на предыдущую страницу"></Button>
     </StackPanel>
 </UserControl>
