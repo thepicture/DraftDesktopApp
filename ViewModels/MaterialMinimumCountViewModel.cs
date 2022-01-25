@@ -64,6 +64,12 @@ namespace DraftDesktopApp.ViewModels
 
         private void ChangeMinCount(object commandParameter)
         {
+            if (!FeedbackService.AskQuestion("Вы действительно хотите " +
+                "изменить минимальное количество выбранных материалов?"))
+            {
+                FeedbackService.ShowInfo("Изменение отменено");
+                return;
+            }
             foreach (Material material in Materials)
             {
                 _context.Material
@@ -75,9 +81,14 @@ namespace DraftDesktopApp.ViewModels
             {
                 _ = _context.SaveChanges();
                 NavigationService.GoBack();
+                FeedbackService.ShowInfo("Изменения успешно применены!");
             }
             catch (Exception ex)
             {
+                FeedbackService.ShowError("Не удалось применить изменения. " +
+                    "Перезайдите на страницу, если это не поможет, то " +
+                    "перезайдите в приложение. В противном случае " +
+                    "обратитесь к администратору");
                 System.Diagnostics.Debug.WriteLine(ex.StackTrace);
             }
         }
