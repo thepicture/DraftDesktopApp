@@ -67,6 +67,28 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Name="MaterialsList"
                   SelectionMode="Multiple">
+            <ListView.Style>
+                <Style TargetType="ListView">
+                    <Style.Triggers>
+                        <Trigger Property="HasItems"
+                                 Value="False">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBlock Text="Ничего не найдено по запросу поиска или никаких материалов пока не добавлено. 
+                                                   Попробуйте ввести другой запрос в поле сверху или добавить новый материал"
+                                                   TextWrapping="Wrap"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Style="{StaticResource HeaderBlock}"></TextBlock>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
