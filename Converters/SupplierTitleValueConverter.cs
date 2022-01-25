@@ -16,6 +16,10 @@ namespace DraftDesktopApp.Converters
         {
             HashSet<Supplier> suppliers = (HashSet<Supplier>)value;
             IEnumerable<string> suppliersTitles = suppliers.Select(s => s.Title);
+            if (suppliersTitles.Count() == 0)
+            {
+                return "Отсутствуют";
+            }
             return string.Join(", ", suppliersTitles);
         }
 

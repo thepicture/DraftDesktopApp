@@ -121,7 +121,7 @@
                                 <TextBlock Grid.Row="2"
                                            TextWrapping="Wrap">
                                     <TextBlock.Inlines>
-                                        <Run Text="Поставщики"
+                                        <Run Text="Поставщики: "
                                              FontWeight="Bold"></Run>
                                         <Run Text="{Binding Supplier, Converter={StaticResource SupplierTitle}}"></Run>
                                     </TextBlock.Inlines>
