@@ -154,6 +154,11 @@ namespace DraftDesktopApp.ViewModels
 
         private void PerformDelete(object obj)
         {
+            if (!FeedbackService.AskQuestion("Вы действительно хотите удалить материал?"))
+            {
+                FeedbackService.ShowInfo("Удаление материала отменено");
+                return;
+            }
             if (CurrentMaterial.ProductMaterial.Count() > 0)
             {
                 return;
@@ -167,7 +172,6 @@ namespace DraftDesktopApp.ViewModels
             {
                 NavigationService.Navigate<MaterialViewModel>();
             }
-
         }
 
         private bool IsSavedChanges()
@@ -175,10 +179,16 @@ namespace DraftDesktopApp.ViewModels
             try
             {
                 _ = _context.SaveChanges();
+                FeedbackService.ShowInfo("Изменения успешно сохранены!");
                 return true;
             }
             catch (Exception ex)
             {
+                FeedbackService.ShowInfo("Не удалось изменить материал. " +
+                    "Вероятно, поля заполнены неверно. Попробуйте " +
+                    "перезайти на страницу и попробовать ещё раз. " +
+                    "Если это не поможет, перезапустите приложение. " +
+                    "Дальнейшие действия - обратитесь к администратору");
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
@@ -266,6 +276,11 @@ namespace DraftDesktopApp.ViewModels
 
         private void AddPosition(object commandParameter)
         {
+            if (!FeedbackService.AskQuestion("Вы действительно хотите добавить позицию?"))
+            {
+                FeedbackService.ShowInfo("Добавление позиции отменено");
+                return;
+            }
             CurrentMaterial.Supplier.Add(CurrentPosition);
             UpdateSuppliers();
             SupplierPositions = SupplierPositions
@@ -310,6 +325,11 @@ namespace DraftDesktopApp.ViewModels
 
         private void DeletePosition(object commandParameter)
         {
+            if (!FeedbackService.AskQuestion("Действительно удалить позицию?"))
+            {
+                FeedbackService.ShowInfo("Удаление позиции отменено");
+                return;
+            }
             Supplier selectedSupplier = commandParameter as Supplier;
             Supplier materialSupplier = CurrentMaterial.Supplier
                 .First(s => s.ID == selectedSupplier.ID);
@@ -355,6 +375,12 @@ namespace DraftDesktopApp.ViewModels
             {
                 CurrentMaterial.ImageBytes = materialImage;
                 OnPropertyChanged(nameof(CurrentMaterial));
+                FeedbackService.ShowInfo("Фото успешно изменено!");
+            }
+            else
+            {
+                FeedbackService.ShowInfo("Фото не прикреплено. " +
+                    "Убедитесь, что вы выбрали изображение");
             }
         }
     }

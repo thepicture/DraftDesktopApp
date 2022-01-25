@@ -15,6 +15,7 @@ namespace DraftDesktopApp
 
             DependencyService.Register<ViewModelNavigationService>();
             DependencyService.Register<SimpleFileSelector>();
+            DependencyService.Register<MessageBoxFeedbackService>();
 
             Window window = new NavigationView
             {

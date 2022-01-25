@@ -16,6 +16,8 @@ namespace DraftDesktopApp.ViewModels
         private bool _isValid;
         public INavigationService<ViewModelBase> NavigationService =>
             DependencyService.Get<INavigationService<ViewModelBase>>();
+        public IFeedbackService FeedbackService =>
+            DependencyService.Get<IFeedbackService>();
         public string Title
         {
             get => _title;
@@ -53,6 +55,13 @@ namespace DraftDesktopApp.ViewModels
 
         private void PerformGoBack(object obj)
         {
+            if (!FeedbackService.AskQuestion("Точно вернуться назад? " +
+                "Если были изменения на текущей странице, " +
+                "то они не сохранятся"))
+            {
+                FeedbackService.ShowInfo("Переход на прошлую страницу отменён");
+                return;
+            }
             NavigationService.GoBack();
         }
 
@@ -63,8 +72,6 @@ namespace DraftDesktopApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-
         protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
         {
             if (!Equals(field, newValue))
@@ -73,9 +80,7 @@ namespace DraftDesktopApp.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 return true;
             }
-
             return false;
         }
-
     }
 }

@@ -374,8 +374,11 @@ namespace DraftDesktopApp.ViewModels
 
         private void ClearFilters(object commandParameter)
         {
-            CurrentFilterType = FilterTypes.First();
-            CurrentSortType = SortTypes.First();
+            if (FeedbackService.AskQuestion("Точно сбросить фильтрацию?"))
+            {
+                CurrentFilterType = FilterTypes.First();
+                CurrentSortType = SortTypes.First();
+            }
         }
 
         private RelayCommand goToChangeMinCountCommand;
